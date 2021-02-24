@@ -16,6 +16,8 @@ https://github.com/joe-siyuan-qiao/WeightStandardization
 
 https://github.com/davidtvs/pytorch-lr-finder
 
+https://github.com/frankkramer-lab/MIScnn
+
 Roth HR, Lu L, Farag A, Shin H-C, Liu J, Turkbey EB, Summers RM. DeepOrgan: Multi-level Deep Convolutional Networks for Automated Pancreas Segmentation. N. Navab et al. (Eds.): MICCAI 2015, Part I, LNCS 9349, pp. 556–564, 2015.
 
 Cancer imaging archive wiki. (n.d.). Retrieved February 06, 2021, from https://wiki.cancerimagingarchive.net/display/Public/Pancreas-CT#225140409ddfdf8d3b134d30a5287169935068e3.
