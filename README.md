@@ -14,6 +14,8 @@ https://discuss.pytorch.org/t/how-are-layer-weights-and-biases-initialized-by-de
 
 https://github.com/joe-siyuan-qiao/WeightStandardization
 
+https://discuss.pytorch.org/t/patch-making-does-pytorch-have-anything-to-offer/33850/11
+
 https://github.com/davidtvs/pytorch-lr-finder
 
 https://github.com/frankkramer-lab/MIScnn
