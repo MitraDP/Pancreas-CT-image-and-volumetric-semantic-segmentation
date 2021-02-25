@@ -16,6 +16,8 @@ https://github.com/joe-siyuan-qiao/WeightStandardization
 
 https://discuss.pytorch.org/t/patch-making-does-pytorch-have-anything-to-offer/33850/11
 
+https://discuss.pytorch.org/t/fold-unfold-to-get-patches/53419
+
 https://github.com/davidtvs/pytorch-lr-finder
 
 https://github.com/frankkramer-lab/MIScnn
