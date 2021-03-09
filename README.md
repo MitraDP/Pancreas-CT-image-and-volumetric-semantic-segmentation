@@ -1,4 +1,4 @@
-# Pancreas-CT-image-and-volumetric-segmentation
+# Pancreas CT image and volumetric segmentation
 
 References:
 
