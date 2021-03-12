@@ -1,4 +1,4 @@
-# Pancreas CT image and volumetric segmentation
+# Pancreas CT image and volumetric semantic segmentation
 
 
 ## Dataset
@@ -6,7 +6,7 @@ The [pancreas computed tomography (CT) dataset](https://doi.org/10.7937/K9/TCIA.
 
 ## Objective 
 
-Automatic image (2D) and volume (3D) segmentation of pancreas computed tomography (CT).
+Automatic image (2D) and volume (3D) semantic segmentation of pancreas computed tomography (CT).
 
 ## Evaluation Metrics
 F2 score and dice similarity coefficient (DSC).
