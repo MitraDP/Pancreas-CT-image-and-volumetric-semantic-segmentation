@@ -40,7 +40,7 @@ The network output and the ground truth labels are compared using sigmoid nonlin
 
 ## Results
 The highest DSC that I got is 75.60±8.60% with the following parameters:
-number of in_features = 32, ReLU activation function, patch size of 32×64×64 and batch size of 16.
+patch size of 32×64×64, batch size of 16, 32 in_features, and ReLU activation function.
 
 
 Figure 2 shows three views of an example of pancreas segmentation plotted by ITK-SNAP. 
@@ -61,7 +61,7 @@ Figure 2. Manual annotation (top) and automatic segmentation (bottom)
 - You may change the patch parameters, batch size, optimizer type, threshold probability limit, and the number of epochs in the “Set the hyperparameters” section. 
 - If you wish to find the maximum learning rate, set lr_find to true and run the code up to the “Train and validate the model” section. Change the scheduler “max_lr” value to the suggested rate and set the “lr” in the optimizer definition to 1/10 of the “max_lr”. Set “lr_find” to False and rerun the code.
 - The notebook generates a CSV file for the history of train and validation loss, specificity, sensitivity, precision, F1_score, F2_score, and DSC.
-- The notebook performs predictions and visualization on the “test” data. 
+- The notebook performs predictions and visualization on the “test” data. For the 3D segmentation saves the images and segmentations as NiBabel file.
 
 References:
 
