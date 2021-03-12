@@ -2,7 +2,7 @@
 
 
 ## Dataset
-The pancreas computed tomography (CT) [dataset](https://doi.org/10.7937/K9/TCIA.2016.tNB1kqBU) consists of 18,942 DICOM images of 80 patients, with a total size of 9.3GB, and their corresponding manually annotated masks as the ground-truths. 
+The [pancreas computed tomography (CT) dataset](https://doi.org/10.7937/K9/TCIA.2016.tNB1kqBU) consists of 18,942 DICOM images of 80 patients, with a total size of 9.3GB, and their corresponding manually annotated masks as the ground-truths. 
 
 ## Objective 
 
