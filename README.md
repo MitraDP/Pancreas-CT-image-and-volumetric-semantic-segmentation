@@ -4,7 +4,9 @@
 
 ## Objective
 
+## Evaluation Metrics
 
+## Solution Approach
 <p align="center">
 <image src= "assets/3D%20UNet.png" width="600"> 
 </p> 
@@ -12,6 +14,7 @@
 Figure 1. 3D UNet architecture
 </p>
 
+## Results
 
 <p align="center">
 <image src= "assets/manual%20annotation.jpg" width="600"> 
@@ -22,7 +25,7 @@ Figure 2. Manual segmentation
 
 
 <p align="center">
-<image src= "assets/automatic%20annotation.jpg" width="600"> 
+<image src= "assets/automatic%20segmentation.jpg" width="600"> 
 </p> 
 <p align="center">               
 Figure 3. Automatic segmentation
