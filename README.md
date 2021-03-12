@@ -1,5 +1,34 @@
 # Pancreas CT image and volumetric segmentation
 
+## Dataset
+
+## Objective
+
+
+<p align="center">
+<image src= "assets/3D%20UNet.png" width="600"> 
+</p> 
+<p align="center">               
+Figure 1. 3D UNet architecture
+</p>
+
+
+<p align="center">
+<image src= "assets/manual%20annotation.jpg" width="600"> 
+</p> 
+<p align="center">               
+Figure 2. Manual segmentation
+</p>
+
+
+<p align="center">
+<image src= "assets/automatic%20annotation.jpg" width="600"> 
+</p> 
+<p align="center">               
+Figure 3. Automatic segmentation
+</p>
+
+
 References:
 
 https://github.com/fepegar/unet/tree/v0.7.5
