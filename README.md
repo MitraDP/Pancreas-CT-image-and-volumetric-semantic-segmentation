@@ -27,29 +27,32 @@ Figure 1. 3D UNet architecture
 
 
 
-In medical image segmentation, the number of anomaly voxels is usually more than that of voxels without anomalies. The segmentation prediction of such an unbalanced dataset is biased toward high precision but low sensitivity (recall), which is undesirable in computer-aided diagnosis and clinical decision support systems. To achieve a better trade-off between precision and sensitivity, Salehi et al. have proposed a loss function based on the Tversky index, which is a generalization of the DSC and the scores. I use the Tversky loss function.
+In medical image segmentation, the number of anomaly voxels is usually more than that of voxels without anomalies. The segmentation prediction of such an unbalanced dataset is biased toward high precision but low sensitivity (recall), which is undesirable in computer-aided diagnosis and clinical decision support systems. To achieve a better trade-off between precision and sensitivity, Salehi et al. have proposed a loss function based on the Tversky index, which is a generalization of the DSC and the F_β scores. I use the Tversky loss function.
+
 To quantitatively evaluate the performance of the network, I calculate and report specificity, sensitivity, precision, F1 score, F2 score and DSC.
 
 I randomly assign patients to train, validation and test sets using a 70/10/20 split, resulting in a set of (56, 7, 17) pairs of images and masks. The train data is shuffled before getting batched. Three-dimensional medical images have repetitive structures with slight variations. Hence, I resize each patients’ image and mask to 128×256×256 voxels, where the first dimension indicates the total number of slices in the volume and the next two dimensions represent the size of a 2D slice (depth, height, width). For the 2D study, I use these resized slices as data. For the 3D study, due to GPU memory constraints, it is not feasible to use the entire volume of each patient in a single batch. Hence, I split each patient’s image and mask into smaller volumes (subvolumes) which are called patches in computer vision. Patch size is a hyperparameter in this study.
 I use data augmentation on the training data to avoid overfitting. For the 2D study, I use the PyTorch augmentation library albumentations. I implement Rotate, VerticalFlip, PadIfNeeded and GridDistortion. As for the 3D study, I use 3D RandomAffine (scales, degrees), RandomElasticDeformation, and RandomFlip (vertical flip) transforms from the TorchIO package.
+
 I did experimentation on the effect of types of the activation function. the number of feature channels and patch sizes on the performance metrics. I compared the metrics when ReLU is substituted by the Swish activation function. 
+
 The network output and the ground truth labels are compared using sigmoid nonlinearities with the Tversky loss. Voxels with probabilities of 0.5 or higher are considered with anomalies and the rest of the voxels are considered without anomalies. I train all models with α=0.3 and β=0.7. The best model is saved based on an increase in DSC. I employ an Adam optimizer. For the training schedule, I use Leslie Smith’s one-cycle learning rate Policy with 100 epochs. In the one-cycle learning policy, the learning rate varies from a lower value to a maximum rate and then reduces to the lower value, all in 2 steps of equal size. The maximum learning rate is tuned for each model and the lower rate is approximately 1/10 of the maximum rate. 
 
 ## Results
 The highest DSC that I got is 75.60±8.60% with the following parameters:
+number of in_features = 32, ReLU activation function, patch size of 32×64×64 and batch size of 16.
+
+
 Figure 2 shows three views of an example of pancreas segmentation plotted by ITK-SNAP. 
 The top row images are the manual ground truth annotations and the bottom row ones are the automatic segmentations.
 
 <p align="center">
 <image src= "assets/manual%20annotation.jpg" width="600"> 
 </p> 
-<p align="center">      
-  
 <p align="center">
 <image src= "assets/automatic%20segmentation.jpg" width="600"> 
 </p> 
-<p align="center">            
-
+<p align="center">        
 Figure 2. Manual annotation (top) and automatic segmentation (bottom)
 </p>
 
