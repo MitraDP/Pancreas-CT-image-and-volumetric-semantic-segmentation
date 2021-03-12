@@ -1,12 +1,22 @@
 # Pancreas CT image and volumetric segmentation
 
-## Dataset
 
-## Objective
+## Dataset
+The pancreas computed tomography (CT) [dataset](https://doi.org/10.7937/K9/TCIA.2016.tNB1kqBU) consists of 18,942 DICOM images of 80 patients, with a total size of 9.3GB, and their corresponding manually annotated masks as the ground-truths. 
+
+## Objective 
+
+Automatic image (2D) and volume (3D) segmentation of pancreas computed tomography (CT).
 
 ## Evaluation Metrics
+F2 score and dice similarity coefficient (DSC).
 
 ## Solution Approach
+For each patient, there are several medical images where each image is a single slice of the scan with a resolution of 512×512 pixels. Among patients, the number of slices varies from 181 to 466 with a median of 237. The annotation masks label anomalies and are in Neuroimaging Informatics Technology Initiative (NIfTI) format. Regions in the CT scan slices with pixel values of 1 and 0 denote areas with and without anomalies, respectively. With this dataset, I perform both 2D and 3D medical image segmentation. In 2D, I consider each slice on its own, and in 3D, I consider the volume built on the collection of slices of each patient.
+
+I use 2D-UNet and 3D-Unet which are fully convolutional networks developed for biomedical image segmentation. The 2D UNet architecture contains an encoder and a decoder path each with four resolution steps. The encoder path captures the context of the image and the decoder path enables localization. Each of the encoder and decoder paths consists of 4 blocks which contain two 3×3 convolutions each followed by a batch normalization for faster convergence and a rectified linear unit (ReLU), and then a 2×2 max pooling with strides of two in each dimension. In the decoder path, each layer consists of an upconvolution of 2×2 by strides of two in each dimension, followed by two 3×3 convolutions each followed by a ReLU. Through shortcut connections from layers of equal resolution in the encoder path, the essential high-resolution features are provided to the decoder path. To avoid bottlenecks, the number of feature channels is doubled after each maxpooling and halved in each upconvolution. To avoid overfitting, I use dropout with a ratio of 20% after each maxpooling and upconvolution. In the last layer, a 1×1 convolution reduces the number of output channels to 1. Then, I apply a sigmoid along with each pixel to form the loss. I have initialized the weights using Gaussian distribution with a standard deviation of  √(2⁄N),, where N is the number of incoming nodes of one neuron. 
+3D UNet architecture is an extension of 2D UNet, where all 2D operations are replaced by their 3D counterparts: 3D convolutions, 3D maxpooling and 3D up-convolutional layers. Figure 1 shows a sample of the 3D UNet with 32 input features for a patch of 64×128×128 voxels.
+
 <p align="center">
 <image src= "assets/3D%20UNet.png" width="600"> 
 </p> 
