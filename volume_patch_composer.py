@@ -98,9 +98,11 @@ def patch_creator(partition, kw, kh, kc, dw, dh, dc):
         ct = ct.squeeze(0).squeeze(0)
         mask = mask.squeeze(0).squeeze(0)
         # create subvolumes
-        CT_patch = ct.unfold(0,kw, dw)
-        CT_patch = CT_patch.unfold(1,kh, dh)
-        CT_patch = CT_patch.unfold(2,kc, dc)
+        #it is like folding along width, then heigth, then depth
+        #for a [1, 1, 256, 256, 128] tensor:squeezing->[256,256,128]
+        CT_patch = ct.unfold(0,kw, dw)  # -->[4, 256, 128, 64]
+        CT_patch = CT_patch.unfold(1,kh, dh) #-->[4, 4, 128, 64, 64]
+        CT_patch = CT_patch.unfold(2,kc, dc) #-->[4, 4, 4, 64, 64, 32]
         mask_patch = mask.unfold(0,kw, dw)
         mask_patch = mask_patch.unfold(1,kh, dh)
         mask_patch = mask_patch.unfold(2,kc, dc)  
