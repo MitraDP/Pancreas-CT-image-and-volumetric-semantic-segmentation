@@ -67,7 +67,7 @@ def get_inference_performance_metrics_2D(model, part, dataset_test,
             m = performance_metrics(smooth = 1e-6)
             # Get average metrics per batch
             specificity, sensitivity, precision, F1_score, F2_score, DSC = m(
-                target, output_b)    
+                output_b, target)    
             specificity_val += specificity * batch_l
             sensitivity_val += sensitivity * batch_l
             precision_val += precision * batch_l
@@ -106,29 +106,24 @@ def get_inference_performance_metrics_2D(model, part, dataset_test,
 # Pancreas_3D_dataset:  3D dataset which is grouped per patient         #
 # threshold:            Threshold value to create binary image          #
 #-----------------------------------------------------------------------#
-def get_inference_performance_metrics_3D(model, part, Pancreas_3D_dataset,
-                                         batch_size, train_on_gpu,
-                                         threshold, kw, kh, kc, dw, dh, dc):
-
-    dataset_test =[]
-    # Initialize a list to keep track of test performance metrics    
-    test_metrics =[]
-    # Set the model to inference mode
-    model.eval()
-    
-    for p in part:
-        # Create subvolumes (patches) for each patient's CT and mask
-        CT_patches = {}
-        mask_patches ={}
-        CT_patches[p], mask_patches[p] = patch_creator([p], kw, kh, kc,
-                                                       dw, dh, dc) 
-        dataset_test= Pancreas_3D_dataset (CT_patches[p], mask_patches[p], 
-                                           augment= False)
+def get_inference_performance_metrics_3D(model, part, Pancreas_3D_dataset, 
+                                    batch_size, train_on_gpu, threshold,
+                                    kw, kh, kc, dw, dh, dc):
+    test_metrics = []
+    for patient in part:
+        # Set the model to inference mode
+        model.eval()
+        # Create subvolumes (patches) for patient's CT and mask
+        CT_patches = []
+        mask_patches =[]
+        CT_patches, mask_patches = patch_creator([patient], kw, kh, kc, 
+                                                  dw, dh, dc) 
+        dataset_test= Pancreas_3D_dataset (CT_patches, mask_patches,
+                                            augment= False)
         loaders_test = torch.utils.data.DataLoader(dataset_test, 
-                                                   batch_size=batch_size, 
-                                                   shuffle=False, 
-                                                   num_workers=0)
-        # Initialize variables to monitor performance metrics
+                                                    batch_size=batch_size, 
+                                                    shuffle=False, 
+                                                    num_workers=0)
         specificity_val = 0
         sensitivity_val = 0
         precision_val = 0
@@ -136,8 +131,7 @@ def get_inference_performance_metrics_3D(model, part, Pancreas_3D_dataset,
         F2_score_val = 0
         DSC_val = 0
         # initialize the number of test instances
-        test_cnt = 0
-
+        valid_cnt = 0
         for batch_idx, (data, target) in enumerate(loaders_test):
             # move to GPU
             if train_on_gpu:
@@ -148,31 +142,29 @@ def get_inference_performance_metrics_3D(model, part, Pancreas_3D_dataset,
             # Binarize the output
             output_b = (output>threshold)*1
             output_b = np.squeeze(output_b)
-            
             batch_l = output_b.size
-            # update the total number of inference pairs 
-            test_cnt += batch_l
+            # update the total number of validation pairs
+            valid_cnt += batch_l
+            #t1 = transforms.ToTensor()
             # Transform output back to Pytorch Tensor and move it to GPU
+            #output_b = t1(output_b)
             output_b = torch.as_tensor(output_b)
             output_b = output_b.cuda()
-            # Get average metrics per batch
+            # calculate average performance metrics per batches
             m = performance_metrics(smooth = 1e-6)
-            specificity, sensitivity, precision, F1_score, F2_score, DSC = m(
-                target, output_b)    
+            specificity, sensitivity, precision, F1_score, F2_score, DSC =  m(output_b, target)    
+            
             specificity_val += specificity * batch_l
             sensitivity_val += sensitivity * batch_l
             precision_val += precision * batch_l
             F1_score_val += F1_score * batch_l
-            F2_score_val += F2_score * batch_l
+            F2_score_val += F2_score * batch_l 
             DSC_val += DSC * batch_l 
-        
-        # Calculate the overall average metrics       
-        specificity_val, sensitivity_val, precision_val, F1_score_val, 
-        F2_score_val, DSC_val = specificity_val/test_cnt, sensitivity_val/test_cnt, 
-        precision_val/test_cnt, F1_score_val/test_cnt, F2_score_val/test_cnt, 
-        DSC_val/test_cnt
+            # Calculate the overall average metrics    
+        specificity_val, sensitivity_val, precision_val, F1_score_val, F2_score_val, DSC_val = specificity_val/valid_cnt, sensitivity_val/valid_cnt, precision_val/valid_cnt, F1_score_val/valid_cnt, F2_score_val/valid_cnt, DSC_val/valid_cnt
+
         # Add each patient's prediction metrics to the list
-        test_metrics.append((p,specificity_val, sensitivity_val, 
+        test_metrics.append((patient,specificity_val, sensitivity_val, 
                              precision_val, F1_score_val, 
                              F2_score_val, DSC_val ))
         #save the test metrics as a table
