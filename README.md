@@ -39,9 +39,19 @@ I did experimentation on the effect of types of the activation function. the num
 The network output and the ground truth labels are compared using sigmoid nonlinearities with the Tversky loss. Voxels with probabilities of 0.5 or higher are considered with anomalies and the rest of the voxels are considered without anomalies. I train all models with α=0.3 and β=0.7. The best model is saved based on an increase in DSC. I employ an Adam optimizer. For the training schedule, I use Leslie Smith’s one-cycle learning rate Policy with 100 epochs. In the one-cycle learning policy, the learning rate varies from a lower value to a maximum rate and then reduces to the lower value, all in 2 steps of equal size. The maximum learning rate is tuned for each model and the lower rate is approximately 1/10 of the maximum rate. 
 
 ## Results
-The highest DSC that I got is 75.60±8.60% with the following parameters:
+The highest mean DSC that I got is 70.32±10.87% with the following parameters:
 patch size of 32×64×64, batch size of 16, 32 in_features, and ReLU activation function.
 
+|specificity|sensitivity|precision|F1_score|F2_score|DSC|
+|---|---|---|---|---|---|
+|count|17.000000|17.000000|17.000000|17.000000|17.000000|17.000000|
+|mean|0.999726|0.165663|0.291462|0.776711|0.677990|0.703180|
+|std|0.000134|0.074426|0.093333|0.092947|0.110595|0.108743|
+|min|0.999426|0.049721|0.150370|0.578306|0.465728|0.510072|
+|25%|0.999658|0.103727|0.205767|0.731116|0.583766|0.608891|
+|50%|0.999741|0.187936|0.315979|0.762804|0.701684|0.703203|
+|75%|0.999845|0.212360|0.376995|0.841608|0.742929|0.762804|
+|max|0.999896|0.274778|0.404222|0.931877|0.920033|0.931877|
 
 Figure 2 shows three views of an example of pancreas segmentation plotted by ITK-SNAP. 
 The top row images are the manual ground truth annotations and the bottom row ones are the automatic segmentations.
