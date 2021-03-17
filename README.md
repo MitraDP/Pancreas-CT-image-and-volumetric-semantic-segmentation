@@ -42,8 +42,8 @@ The network output and the ground truth labels are compared using sigmoid nonlin
 The highest mean DSC that I got is 70.32±10.87% with the following parameters:
 patch size of 32×64×64, batch size of 16, 32 in_features, and ReLU activation function.
 
-|specificity|sensitivity|precision|F1_score|F2_score|DSC|
-|---|---|---|---|---|---|
+|   |specificity|sensitivity|precision|F1_score|F2_score|DSC|
+|---|---|---|---|---|---|---|
 |count|17.000000|17.000000|17.000000|17.000000|17.000000|17.000000|
 |mean|0.999726|0.165663|0.291462|0.776711|0.677990|0.703180|
 |std|0.000134|0.074426|0.093333|0.092947|0.110595|0.108743|
