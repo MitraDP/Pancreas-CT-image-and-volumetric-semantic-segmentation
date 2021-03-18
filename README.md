@@ -20,7 +20,7 @@ I use 2D-UNet and 3D-Unet which are fully convolutional networks developed for b
 
 <p align="center">
 <image src= "assets/3D%20UNet.png" width="600"> 
-</p> 
+</p>  
 <p align="center">               
 Figure 1. 3D UNet architecture
 </p>
